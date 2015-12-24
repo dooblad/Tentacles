@@ -19,11 +19,6 @@ var mouse = {
     down: false
 };
 
-var character = {
-    x: 0,
-    y: 0
-}
-
 var time = 0;
 var tentacles = [];
 var sin, cos;
