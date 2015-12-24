@@ -23,6 +23,7 @@ var time = 0;
 var tentacles = [];
 var sin, cos;
 function tick(){
+    // Precompute trig values.
     sin = Math.sin(time / 30);
     cos = Math.cos(time / 30);
 
@@ -31,16 +32,20 @@ function tick(){
 
     var mid = { x: canvas.width / 2,
                 y: canvas.height / 2 };
+
     c.strokeStyle = "white";
     c.lineWidth = "1";
 
     if(mouse.down) {
+        var pos = {
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height
+        };
         tentacles.push(new Tentacle(Math.random() * 200,
                                     Math.random(), 
                                     Math.random(), 
                                     mid,
-                                    { x: Math.random() * canvas.width,
-                                      y: Math.random() * canvas.height}));
+                                    pos));
     }
         
     for(i = 0; i < tentacles.length; i++) {
@@ -60,9 +65,11 @@ function Tentacle(intensity, percent1, percent2, from, to) {
     this.from = from;
     this.to = to;
     this.update = function() {
+        // Make it change over time.
         this.intensity += Math.random() - 0.5;
         this.percent1 += Math.random() / 10 - 0.2;
         this.percent2 += Math.random() / 10 - 0.2;
+        // Bound the percentages to [0, 1].
         if(this.percent1 < 0) {
             this.percent1 = 0;
         } else if(this.percent1 > 1) {
@@ -96,7 +103,7 @@ function getTangentPoint(from, to, distance, percentage) {
 }
 
 /*
- * Returns the tangent vector of the mouse from the center of the Canvas.
+ * Returns the tangent vector of the vector ("to" - "from").
  */
 function getTangentVector(from, to, length) {
     // In radians.
